@@ -35,7 +35,6 @@ const Search: React.FC<Props> = ({ navigation }) => {
       const search = textValue.toLowerCase();
       if (search.length > 2) {
         const symbol_res = await axios.get(CONFIG.GET_SYMBOL_API + search);
-        console.log(symbol_res.data);
         setSuggestionList(symbol_res.data);
       } else {
         setSuggestionList([]);
@@ -44,7 +43,6 @@ const Search: React.FC<Props> = ({ navigation }) => {
   }, [textValue]);
 
   const selectSymbol = (item: any) => {
-    console.log(item);
     let newList = [...list, item];
     dispatch(setCollection(newList));
   };
@@ -70,15 +68,16 @@ const Search: React.FC<Props> = ({ navigation }) => {
         <FlatList
           data={suggestionList}
           renderItem={({ item }: any) => (
-            <Text
-              onPress={() => selectSymbol(item)}
-              style={{
-                marginVertical: 10,
-                paddingHorizontal: 10,
-              }}
-            >
-              {item.Symbol} - {item.Name}
-            </Text>
+            <TouchableOpacity onPress={() => selectSymbol(item)}>
+              <Text
+                style={{
+                  marginVertical: 10,
+                  paddingHorizontal: 10,
+                }}
+              >
+                {item.Symbol} - {item.Name}
+              </Text>
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item.Id}
         />

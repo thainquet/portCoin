@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { useEffect } from "react";
-import { SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useAppSelector } from "../../redux-toolkit/hook";
 import { RootStackParamList } from "../../types/RootStackParamList";
 
@@ -16,7 +16,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      console.log("list when focus: ", list);
+      //   console.log("list when focus: ", list);
     });
 
     return unsubscribe;
@@ -25,6 +25,14 @@ const Home: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text>Home</Text>
+      {list.length > 0 &&
+        list.map((item) => (
+          <View key={item.Id}>
+            <Text>
+              {item.Symbol} - {item.Name}
+            </Text>
+          </View>
+        ))}
       <TouchableOpacity onPress={() => navigation.navigate("Search")}>
         <Text>Go search</Text>
       </TouchableOpacity>
