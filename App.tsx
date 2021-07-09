@@ -9,26 +9,27 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-type dataType = {
-  Id: string;
-  Symbol: string;
-  Name: string;
-};
-import * as BaseData from "./db.json";
-const dataArray = Object.values(BaseData);
+import axios from "axios";
+import { CONFIG } from "./constants";
 
 export default function App() {
   const [textValue, setTextValue] = useState<string>("");
+
   const loadData = async () => {
     const search = textValue.toLowerCase();
     console.log(search);
-    console.log(dataArray.map((i) => i.Symbol));
-    // console.log(JSON.parse(BaseData));
+    const symbol_res = await axios.get(CONFIG.GET_SYMBOL_API + search);
+    console.log(symbol_res.data);
   };
 
   return (
     <SafeAreaView>
       <TextInput
+        style={{
+          borderWidth: 1,
+          borderColor: "gray",
+        }}
+        // value={textValue}
         autoCorrect={false}
         onChangeText={(textValue) => setTextValue(textValue)}
       />
