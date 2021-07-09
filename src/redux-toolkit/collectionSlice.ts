@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface CollectionState {
-  list: any;
+  list: any[];
 }
 
 const initialState: CollectionState = {
-  list: {},
+  list: [],
 };
 
 export const collectionSlice = createSlice({

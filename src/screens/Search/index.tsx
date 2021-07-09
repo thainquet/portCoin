@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import { CONFIG } from "../../../constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../types/RootStackParamList";
+import { useAppDispatch, useAppSelector } from "../../redux-toolkit/hook";
+import { setCollection } from "../../redux-toolkit/collectionSlice";
 
 type SearchNavigationProp = StackNavigationProp<RootStackParamList, "Search">;
 
@@ -25,6 +27,8 @@ type Props = {
 const Search: React.FC<Props> = ({ navigation }) => {
   const [textValue, setTextValue] = useState<string>("");
   const [suggestionList, setSuggestionList] = useState<any>([]);
+  const list = useAppSelector((state) => state.collection.list);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
@@ -38,6 +42,12 @@ const Search: React.FC<Props> = ({ navigation }) => {
       }
     })();
   }, [textValue]);
+
+  const selectSymbol = (item: any) => {
+    console.log(item);
+    let newList = [...list, item];
+    dispatch(setCollection(newList));
+  };
 
   return (
     <SafeAreaView>
@@ -61,7 +71,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
           data={suggestionList}
           renderItem={({ item }: any) => (
             <Text
-              onPress={() => console.log(item)}
+              onPress={() => selectSymbol(item)}
               style={{
                 marginVertical: 10,
                 paddingHorizontal: 10,
