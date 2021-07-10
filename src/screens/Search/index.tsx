@@ -43,6 +43,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
   }, [textValue]);
 
   const selectSymbol = (item: any) => {
+    if (list.find(i => i.Name === item.Name)) return
     let newList = [...list, item];
     dispatch(setCollection(newList));
   };
@@ -66,9 +67,16 @@ const Search: React.FC<Props> = ({ navigation }) => {
       </View>
       {suggestionList.length > 0 && (
         <FlatList
+        style={{
+          paddingHorizontal: 10
+        }}
           data={suggestionList}
           renderItem={({ item }: any) => (
-            <TouchableOpacity onPress={() => selectSymbol(item)}>
+            <TouchableOpacity style={{
+              backgroundColor:'green',
+              borderBottomColor: 'gray',
+              borderBottomWidth: 1
+            }} onPress={() => selectSymbol(item)}>
               <Text
                 style={{
                   marginVertical: 10,
